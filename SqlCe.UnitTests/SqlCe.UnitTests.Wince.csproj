@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">DebugWince</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B21C2DBA-2AC9-4B2A-967A-4129812ECBDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenNetCf.Orm.SqlCe.UnitTests</RootNamespace>
+    <AssemblyName>OpenNetCf.Orm.SqlCe.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWince|AnyCPU' ">
+    <DebugDesktopSymbols>true</DebugDesktopSymbols>
+    <DebugDesktopType>full</DebugDesktopType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Remote\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WindowsCE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWince|AnyCPU' ">
+    <DebugDesktopType>pdbonly</DebugDesktopType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\Remote\</OutputPath>
+    <DefineConstants>TRACE;WindowsCE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET35\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.2.1\lib\net35\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server Compact Edition\v3.5\Devices\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Test References\OpenNETCF.ORM.SqlCe.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BinaryData.cs" />
+    <Compile Include="DataGenerator.cs" />
+    <Compile Include="DataTypeTests.cs" />
+    <Compile Include="Entities\Author.cs" />
+    <Compile Include="Entities\AuthorSerializer.cs" />
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\BookVersion.cs" />
+    <Compile Include="Entities\CustomObject.cs" />
+    <Compile Include="Entities\LateAddItem.cs" />
+    <Compile Include="Entities\SeekItem.cs" />
+    <Compile Include="Entities\TestEnum.cs" />
+    <Compile Include="Entities\TestItem.cs" />
+    <Compile Include="Entities\TestItemD.cs" />
+    <Compile Include="Entities\TestItemDSerialiser.cs" />
+    <Compile Include="Entities\TestTable.cs" />
+    <Compile Include="Entities\TestTableSerializer.cs" />
+    <Compile Include="EntityCreationTests.cs" />
+    <Compile Include="ExtensionTests.cs" />
+    <Compile Include="SqlAssertion\ColumnFormat.cs" />
+    <Compile Include="SqlAssertion\TableFormat.cs" />
+    <Compile Include="SqlQueries\JoinTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplicationTests.cs" />
+    <Compile Include="SqlCeDataStoreNotCreatedByOrm.cs" />
+    <Compile Include="SqlCeDataStoreTest.cs" />
+    <Compile Include="SqlQueries\SelectTest.cs" />
+    <Compile Include="SqlQueries\WhereTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dictionary.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="typetest.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UserManualCreation.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenNetCf.Orm.SqlCe\OpenNetCf.Orm.SqlCe.Wince.csproj">
+      <Project>{C0AFC215-58D2-4C3E-A8BC-5671A8E01EC7}</Project>
+      <Name>OpenNetCf.Orm.SqlCe.Wince</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenNetCf.Orm\OpenNetCf.Orm.Wince.csproj">
+      <Project>{2D0EA40A-5C80-4477-A901-7648E57BA749}</Project>
+      <Name>OpenNetCf.Orm.Wince</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
