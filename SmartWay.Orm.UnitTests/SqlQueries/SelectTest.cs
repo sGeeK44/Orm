@@ -29,16 +29,16 @@ namespace SmartWay.Orm.UnitTests.SqlQueries
             SqlQuery = new Selectable<Author>(DataStore.Object, EntityCollection);
         }
 
-        private const string Select = "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName FROM [Author];";
+        private const string Select = "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Author].[Age] AS AuthorAge, [Author].[Active] AS AuthorActive FROM [Author];";
 
         private const string SelectJoin =
-            "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Book].[id] AS Bookid, [Book].[guid] AS Bookguid, [Book].[AuthorId] AS BookAuthorId, [Book].[Title] AS BookTitle, [Book].[BookType] AS BookBookType, [Book].[RowVersion] AS BookRowVersion FROM [Author] JOIN [Book] ON [Author].[Id] = [Book].[AuthorId];";
+            "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Author].[Age] AS AuthorAge, [Author].[Active] AS AuthorActive, [Book].[id] AS Bookid, [Book].[guid] AS Bookguid, [Book].[AuthorId] AS BookAuthorId, [Book].[Title] AS BookTitle, [Book].[BookType] AS BookBookType, [Book].[RowVersion] AS BookRowVersion FROM [Author] JOIN [Book] ON [Author].[Id] = [Book].[AuthorId];";
 
         private const string SelectJoinChain =
-            "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Book].[id] AS Bookid, [Book].[guid] AS Bookguid, [Book].[AuthorId] AS BookAuthorId, [Book].[Title] AS BookTitle, [Book].[BookType] AS BookBookType, [Book].[RowVersion] AS BookRowVersion, [BookVersion].[id] AS BookVersionid, [BookVersion].[guid] AS BookVersionguid, [BookVersion].[BookId] AS BookVersionBookId FROM [Author] JOIN [Book] ON [Author].[Id] = [Book].[AuthorId] JOIN [BookVersion] ON [Book].[id] = [BookVersion].[BookId];";
+            "SELECT [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Author].[Age] AS AuthorAge, [Author].[Active] AS AuthorActive, [Book].[id] AS Bookid, [Book].[guid] AS Bookguid, [Book].[AuthorId] AS BookAuthorId, [Book].[Title] AS BookTitle, [Book].[BookType] AS BookBookType, [Book].[RowVersion] AS BookRowVersion, [BookVersion].[id] AS BookVersionid, [BookVersion].[guid] AS BookVersionguid, [BookVersion].[BookId] AS BookVersionBookId FROM [Author] JOIN [Book] ON [Author].[Id] = [Book].[AuthorId] JOIN [BookVersion] ON [Book].[id] = [BookVersion].[BookId];";
 
         private const string SelectTop =
-            "SELECT TOP(10) [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName FROM [Author];";
+            "SELECT TOP(10) [Author].[Id] AS AuthorId, [Author].[Name] AS AuthorName, [Author].[Age] AS AuthorAge, [Author].[Active] AS AuthorActive FROM [Author];";
 
         private EntityInfoCollection EntityCollection { get; set; }
         private Mock<ISqlFactory> SqlFactory { get; set; }

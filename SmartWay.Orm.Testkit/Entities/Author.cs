@@ -1,4 +1,5 @@
-﻿using SmartWay.Orm.Attributes;
+﻿using System;
+using SmartWay.Orm.Attributes;
 using SmartWay.Orm.Constants;
 using SmartWay.Orm.Entity.Constraints;
 
@@ -17,5 +18,11 @@ namespace SmartWay.Orm.Testkit.Entities
 
         [Field(SearchOrder = FieldSearchOrder.Ascending, Indexes = new[] {"MonIndex"})]
         public string Name { get; set; }
+
+        [Field]
+        public int Age { get; set; }
+
+        [Field]
+        public bool Active { get; set; }
     }
 }
