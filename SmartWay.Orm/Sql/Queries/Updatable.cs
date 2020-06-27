@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 using System.Text;
 using SmartWay.Orm.Filters;
 using SmartWay.Orm.Interfaces;
@@ -111,6 +112,13 @@ namespace SmartWay.Orm.Sql.Queries
         public IAggragableQuery<TIEntity> Where(IFilter filter)
         {
             _where = new Where(filter);
+            return this;
+        }
+
+        public IAggragableQuery<TIEntity> Where(Expression<Func<TIEntity, bool>> predicate)
+        {
+            var filterBuilder = new FilterBuilder<TIEntity>(_datastore.Entities, new FilterFactory(_datastore), predicate);
+            _where = filterBuilder.Build();
             return this;
         }
     }

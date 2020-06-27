@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using SmartWay.Orm.Filters;
 using SmartWay.Orm.Interfaces;
@@ -11,12 +12,14 @@ namespace SmartWay.Orm.Sql.Queries
 {
     public class QuerySet
     {
+        private readonly IDataStore _datastore;
         private readonly GroupBy _groupBy;
         private readonly OrderBy _orderBy;
         private IClause _where;
 
-        internal QuerySet(EntityInfoCollection entities, Type entityInvolve)
+        internal QuerySet(IDataStore datastore, EntityInfoCollection entities, Type entityInvolve)
         {
+            _datastore = datastore;
             _where = new Where();
             _orderBy = new OrderBy();
             _groupBy = new GroupBy();
@@ -37,6 +40,12 @@ namespace SmartWay.Orm.Sql.Queries
         public void Where(IFilter filter)
         {
             _where = new Where(filter);
+        }
+
+        public void Where<TIEntity>(Expression<Func<TIEntity, bool>> predicate) where TIEntity : class
+        {
+            var filterBuilder = new FilterBuilder<TIEntity>(_datastore.Entities, new FilterFactory(_datastore), predicate);
+            _where = filterBuilder.Build();
         }
 
         public void Join<TEntity1, TEntity2>()

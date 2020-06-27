@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 using System.Text;
 using SmartWay.Orm.Filters;
 using SmartWay.Orm.Interfaces;
@@ -13,13 +14,13 @@ namespace SmartWay.Orm.Sql.Queries
         public Selectable(IDataStore datastore, EntityInfoCollection entities)
         {
             Datastore = datastore;
-            Query = new QuerySet(entities, typeof(TIEntity));
+            Query = new QuerySet(datastore, entities, typeof(TIEntity));
         }
 
         public Selectable(IDataStore datastore, EntityInfoCollection entities, Type entityInvolve)
         {
             Datastore = datastore;
-            Query = new QuerySet(entities, entityInvolve);
+            Query = new QuerySet(datastore, entities, entityInvolve);
         }
 
         private IDataStore Datastore { get; }
@@ -74,6 +75,12 @@ namespace SmartWay.Orm.Sql.Queries
         public IAggragableQuery<TIEntity> Where(IFilter filter)
         {
             Query.Where(filter);
+            return this;
+        }
+
+        public IAggragableQuery<TIEntity> Where(Expression<Func<TIEntity, bool>> predicate)
+        {
+            Query.Where(predicate);
             return this;
         }
 
