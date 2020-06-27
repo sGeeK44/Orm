@@ -11,7 +11,7 @@ namespace SmartWay.Orm.Sqlite.Fields
 
         public override string GetIdentity()
         {
-            return " PRIMARY KEY AUTOINCREMENT";
+            return base.GetIdentity() + " AUTOINCREMENT";
         }
 
         public override object Convert(object value)

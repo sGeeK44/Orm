@@ -8,5 +8,10 @@ namespace SmartWay.Orm.Sqlite.Fields
         {
             return string.Empty;
         }
+
+        public override string GetIdentity()
+        {
+            return " PRIMARY KEY";
+        }
     }
 }
