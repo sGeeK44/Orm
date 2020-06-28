@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using SmartWay.Orm.Entity.Fields;
 using SmartWay.Orm.Queries;
 using SmartWay.Orm.Sql.Queries;
 
@@ -186,23 +183,6 @@ namespace SmartWay.Orm.Filters
             }
         }
 
-        //public string GetColumnName<TPropOrField>(Expression<Func<T, TPropOrField>> propertyorFieldExpression)
-        //{
-        //    if (propertyorFieldExpression == null) throw new ArgumentNullException("propertyorFieldExpression");
-
-        //    var body = propertyorFieldExpression.Body as MemberExpression;
-
-        //    return GetColumnName(body);
-        //}
-
-        //public string GetColumnName(MemberExpression memberExpression)
-        //{
-        //    if (memberExpression == null) throw new ArgumentNullException("memberExpression");
-
-        //    var propertyWithSqlInfo = GetConcreteClassProperty(memberExpression.Member as PropertyInfo);
-        //    return propertyWithSqlInfo.FieldName;
-        //}
-
         public IFilter GetColumnName(MemberExpression body)
         {
             if (body == null)
@@ -211,22 +191,11 @@ namespace SmartWay.Orm.Filters
             var entityName = _entityInfos.GetNameForType(typeof(T));
             var entityInfo = _entityInfos[entityName];
             var property = body.Member;
-            var requestedProperty = entityInfo.Fields.FirstOrDefault(_ => _.FieldName == property.Name);
+            var requestedProperty = entityInfo.GetField(property);
             if (requestedProperty == null)
                 throw new NotSupportedException(string.Format("Type doesn't contains member expression property. Requested type:{0}. Property name:{1}.", typeof(T), property.Name));
 
             return _filterFactory.ToColumnValue(entityInfo, requestedProperty.FieldName);
         }
-
-        //private Field GetConcreteClassProperty(PropertyInfo property)
-        //{
-        //    var entityName = _entityInfos.GetNameForType(typeof(T));
-        //    var entityInfo = _entityInfos[entityName];
-        //    var requestedProperty = entityInfo.Fields.FirstOrDefault(_ => _.FieldName == property.Name);
-        //    if (requestedProperty != null)
-        //        return requestedProperty;
-
-        //    throw new NotSupportedException(string.Format("Type doesn't contains member expression property. Requested type:{0}. Property name:{1}.", typeof(T), property.Name));
-        //}
     }
 }

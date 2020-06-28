@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using SmartWay.Orm.Entity.Constraints;
 using SmartWay.Orm.Entity.Fields;
 using SmartWay.Orm.Entity.References;
@@ -79,5 +80,12 @@ namespace SmartWay.Orm.Interfaces
         /// </summary>
         /// <returns>New entity</returns>
         object CreateNewInstance();
+
+        /// <summary>
+        /// Get field for specified property
+        /// </summary>
+        /// <param name="property">Property mark as Field</param>
+        /// <returns>Field found or null</returns>
+        Field GetField(MemberInfo property);
     }
 }

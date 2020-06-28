@@ -125,6 +125,11 @@ namespace SmartWay.Orm
             return Activator.CreateInstance(EntityType);
         }
 
+        public Field GetField(MemberInfo property)
+        {
+            return Fields.FirstOrDefault(_ => _.IsMatch(property));
+        }
+
         private static bool GetConstructWithIEntityInfoParam(ConstructorInfo constructor)
         {
             var parameters = constructor.GetParameters();

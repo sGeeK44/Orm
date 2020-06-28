@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using NFluent;
 using NUnit.Framework;
 using SmartWay.Orm.Attributes;
 using SmartWay.Orm.Filters;
@@ -378,6 +379,21 @@ namespace SmartWay.Orm.Sqlite.UnitTests
             Assert.IsNotNull(bookVersionList[0].Book);
             Assert.AreEqual(null, bookVersionList[1].BookId);
             Assert.IsNull(bookVersionList[1].Book);
+        }
+    }
+
+    [TestFixture]
+    public class FilterTest : SqliteDataStoreTest
+    {
+        [Test]
+        public void LambdaExpression()
+        {
+            var entity = new Book();
+            DataStore.Insert(entity);
+
+            var result = DataStore.Select<Book>().Where(_ => _.Id == 1).GetValues().ToList();
+
+            Check.That(result).Contains(entity);
         }
     }
 }

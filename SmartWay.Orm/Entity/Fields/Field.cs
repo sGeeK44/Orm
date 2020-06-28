@@ -157,5 +157,10 @@ namespace SmartWay.Orm.Entity.Fields
         {
             return "[" + FieldName + "]";
         }
+
+        public bool IsMatch(MemberInfo property)
+        {
+            return PropertyInfo.Name == property.Name;
+        }
     }
 }
