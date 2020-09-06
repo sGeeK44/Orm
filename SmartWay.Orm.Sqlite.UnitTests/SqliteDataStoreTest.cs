@@ -4,6 +4,8 @@ using System.Linq;
 using NFluent;
 using NUnit.Framework;
 using SmartWay.Orm.Attributes;
+using SmartWay.Orm.Constants;
+using SmartWay.Orm.Entity.Constraints;
 using SmartWay.Orm.Filters;
 using SmartWay.Orm.Sql;
 using SmartWay.Orm.Sql.Schema;
@@ -394,6 +396,45 @@ namespace SmartWay.Orm.Sqlite.UnitTests
             var result = DataStore.Select<Book>().Where(_ => _.Id == 1).GetValues().ToList();
 
             Check.That(result).Contains(entity);
+        }
+    }
+
+    [TestFixture]
+    public class GuidPrimaryKey : DatastoreForTest
+    {
+        /// <summary>
+        ///     Encaspulate common behavior for standard entity
+        /// </summary>
+        [Entity]
+        public class Entity
+        {
+            public const string IdColumnName = "id";
+
+            /// <summary>
+            ///     Get unique object identifier
+            /// </summary>
+            [PrimaryKey(KeyScheme.GUID, FieldName = IdColumnName, DefaultValue = DefaultValue.RandomGuid)]
+            public Guid Id { get; set; }
+        }
+
+        protected override void AddTypes()
+        {
+            DataStore.AddType<Entity>();
+        }
+
+        protected override ISqlDataStore CreateStore(string datasource)
+        {
+            return SqliteFactory.CreateStore(datasource);
+        }
+
+        [Test]
+        public void InsertEntity()
+        {
+            var entity = new Entity();
+
+            DataStore.Insert(entity);
+
+            Check.That(entity.Id).IsNotEqualTo(Guid.Empty);
         }
     }
 }
