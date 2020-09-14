@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using SmartWay.Orm.Entity;
-using SmartWay.Orm.Filters;
 using SmartWay.Orm.Interfaces;
 
 namespace SmartWay.Orm.Repositories
 {
     public class Repository<TEntity, TIEntity> : IRepository<TIEntity>
-        where TEntity : EntityBase<TIEntity>, TIEntity, new()
+        where TEntity : class, TIEntity, new()
         where TIEntity : class, IDistinctableEntity
     {
         public Repository()
@@ -31,8 +30,9 @@ namespace SmartWay.Orm.Repositories
             if (entity == null)
                 return;
 
-            if ((long)entity.GetPkValue() == EntityBase<TIEntity>.NullId
-                || GetById(entity.GetPkValue()) == null)
+            var entityInfo = DataStore.Entities[typeof(TEntity)];
+            if (entity.GetPkValue() == entityInfo.PrimaryKey.NullPkValue
+                || GetByPk(entity.GetPkValue()) == null)
                 DataStore.Insert(entity);
             else
                 DataStore.Update(entity);
@@ -88,27 +88,15 @@ namespace SmartWay.Orm.Repositories
         /// </summary>
         /// <param name="pk">The unique identifier of the entity to get</param>
         /// <returns>The entity if exists in datastore, else null</returns>
-        public virtual TIEntity GetById(object pk)
+        public virtual TIEntity GetByPk(object pk)
         {
             return DataStore.Select<TEntity>(pk);
-        }
-
-        public TIEntity GetByGuid(Guid guid)
-        {
-            var condition =
-                DataStore.Condition<TEntity>(EntityBase<TEntity>.GuidColumnName, guid, FilterOperator.Equals);
-            return DataStore.Select<TEntity>().Where(condition).GetValues().FirstOrDefault();
         }
 
 
         public int Count()
         {
             return DataStore.Select<TEntity>().Count();
-        }
-
-        public object GetObjectByGuid(Guid guid)
-        {
-            return GetByGuid(guid);
         }
 
         /// <summary>
@@ -126,9 +114,9 @@ namespace SmartWay.Orm.Repositories
         ///     Return count of all TEntity linked to specified foreign key
         /// </summary>
         /// <typeparam name="TForeignEntity">Type of foreign entity</typeparam>
-        /// <param name="id">Foreign key value</param>
+        /// <param name="pk">Foreign key value</param>
         /// <returns>Count of all entity linked</returns>
-        public virtual long CountAllReference<TForeignEntity>(long id)
+        public virtual long CountAllReference<TForeignEntity>(object pk)
         {
             return 0;
         }
@@ -143,15 +131,6 @@ namespace SmartWay.Orm.Repositories
         }
 
         /// <summary>
-        ///     Change datasource for current repository
-        /// </summary>
-        /// <param name="newDataStore">New Data store to take in source</param>
-        public void ChangeTarget(IDataStore newDataStore)
-        {
-            DataStore = newDataStore;
-        }
-
-        /// <summary>
         ///     Create a new repository with specified generique arg
         /// </summary>
         /// <param name="entityType">Type of entity</param>
@@ -162,6 +141,10 @@ namespace SmartWay.Orm.Repositories
         {
             var repoType = typeof(Repository<,>).MakeGenericType(entityType, entityTypeInterface);
             var result = (IRepository) Activator.CreateInstance(repoType);
+
+            if (result == null)
+                throw new NotSupportedException($"Can create repository {repoType}. Maybe missing construtor with one arg like IRepository");
+
             result.DataStore = datastore;
             return result;
         }

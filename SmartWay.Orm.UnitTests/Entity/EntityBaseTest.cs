@@ -18,6 +18,9 @@ namespace SmartWay.Orm.UnitTests.Entity
         {
             Store = new Mock<ISqlDataStore>();
             Observer = new Mock<IOrmObserver>();
+            var entities = new EntityInfoCollection();
+            EntityInfo.Create(new Mock<IFieldPropertyFactory>().Object, entities, typeof(ConcreteEntity));
+            Store.Setup(_ => _.Entities).Returns(entities);
             Repository = new Repository<ConcreteEntity, ConcreteEntity>(Store.Object);
         }
 

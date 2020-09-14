@@ -15,11 +15,14 @@ namespace SmartWay.Orm.Entity.Constraints
         {
             _constraintName = new Lazy<string>(ComputeConstraintName);
             KeyScheme = pkAttribute.KeyScheme;
+            NullPkValue = GetDefaultValue(PropertyInfo.PropertyType);
         }
 
         public KeyScheme KeyScheme { get; set; }
 
         public string ConstraintName => _constraintName.Value;
+
+        public object NullPkValue { get; }
 
         public string GetCreateSqlQuery()
         {
@@ -61,6 +64,13 @@ namespace SmartWay.Orm.Entity.Constraints
             }
 
             return instanceValue;
+        }
+        private object GetDefaultValue(Type t)
+        {
+            if (t.IsValueType)
+                return Activator.CreateInstance(t);
+
+            return null;
         }
 
         public static PrimaryKey Create(IEntityInfo entity, PropertyInfo prop, PrimaryKeyAttribute primaryKeyAttribute)

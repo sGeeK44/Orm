@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using SmartWay.Orm.Interfaces;
 
@@ -23,25 +22,12 @@ namespace SmartWay.Orm.Repositories
         int Count();
 
         /// <summary>
-        ///     Search TEntity with specified Guid in repository
-        /// </summary>
-        /// <param name="guid">Guid to search</param>
-        /// <returns></returns>
-        object GetObjectByGuid(Guid guid);
-
-        /// <summary>
         ///     Return count of all TEntity linked to specified foreign key
         /// </summary>
         /// <typeparam name="TForeignEntity">Type of foreign entity</typeparam>
-        /// <param name="id">Foreign key value</param>
+        /// <param name="fk">Foreign key value</param>
         /// <returns>Count of all entity linked</returns>
-        long CountAllReference<TForeignEntity>(long id);
-
-        /// <summary>
-        ///     Change datasource for current repository
-        /// </summary>
-        /// <param name="newDataStore">New Data store to take in source</param>
-        void ChangeTarget(IDataStore newDataStore);
+        long CountAllReference<TForeignEntity>(object fk);
     }
 
     /// <summary>
@@ -79,9 +65,9 @@ namespace SmartWay.Orm.Repositories
         /// <summary>
         ///     Search TEntity with specified id in repository
         /// </summary>
-        /// <param name="id">Id to search</param>
+        /// <param name="pk">Id to search</param>
         /// <returns>Entity if found, else null</returns>
-        TEntity GetById(object id);
+        TEntity GetByPk(object pk);
 
         /// <summary>
         ///     Get all TEntity linked to specified foreign key

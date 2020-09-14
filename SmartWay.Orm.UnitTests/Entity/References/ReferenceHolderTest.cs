@@ -21,7 +21,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
         {
             var book = new Book {Id = 10};
             var repo = new Mock<IRepository<Book>>();
-            repo.Setup(_ => _.GetById(book.Id)).Returns(book);
+            repo.Setup(_ => _.GetByPk(book.Id)).Returns(book);
             var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Id = book.Id};
 
 
@@ -33,7 +33,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
         {
             var book = new Book {Id = 10};
             var repo = new Mock<IRepository<Book>>();
-            repo.Setup(_ => _.GetById(book.Id)).Returns(book);
+            repo.Setup(_ => _.GetByPk(book.Id)).Returns(book);
             var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Object = book};
 
 
@@ -59,8 +59,8 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var book = new Book {Id = 10};
             var book2 = new Book {Id = 20};
             var repo = new Mock<IRepository<Book>>();
-            repo.Setup(_ => _.GetById(book.Id)).Returns(book);
-            repo.Setup(_ => _.GetById(book2.Id)).Returns(book2);
+            repo.Setup(_ => _.GetByPk(book.Id)).Returns(book);
+            repo.Setup(_ => _.GetByPk(book2.Id)).Returns(book2);
             var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Id = book.Id, Object = book2};
 
 
@@ -73,8 +73,8 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var book = new Book {Id = 10};
             var book2 = new Book {Id = 20};
             var repo = new Mock<IRepository<Book>>();
-            repo.Setup(_ => _.GetById(book.Id)).Returns(book);
-            repo.Setup(_ => _.GetById(book2.Id)).Returns(book2);
+            repo.Setup(_ => _.GetByPk(book.Id)).Returns(book);
+            repo.Setup(_ => _.GetByPk(book2.Id)).Returns(book2);
             var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Object = book, Id = book2.Id};
 
 

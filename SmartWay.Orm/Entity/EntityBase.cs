@@ -163,7 +163,7 @@ namespace SmartWay.Orm.Entity
             if (Repository == null)
                 throw new NotSupportedException("You have to give a repository in order to use RefreshFromDb");
 
-            var dbObject = Repository.GetById(Id);
+            var dbObject = Repository.GetByPk(Id);
             if (dbObject == null)
                 throw new NotSupportedException("Can't refresh from db if object doesn't exist.");
 

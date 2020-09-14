@@ -47,7 +47,7 @@ namespace SmartWay.Orm.Entity.References
                 return;
             }
 
-            _object = new Lazy<TReference>(() => _repository?.GetById(id));
+            _object = new Lazy<TReference>(() => _repository?.GetByPk(id));
         }
 
         /// <summary>
