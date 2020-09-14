@@ -80,5 +80,14 @@ namespace SmartWay.Orm.UnitTests.Entity.References
 
             CheckIsConsistant(book2, manadatory);
         }
+
+        [Test]
+        public void PkTypeIsValueType()
+        {
+            var bookRepo = new Mock<IRepository<Book>>();
+            var book = new ReferenceHolder<Book, long>(bookRepo.Object);
+
+            Assert.DoesNotThrow(() => book.Object = new Mock<Book>().Object);
+        }
     }
 }

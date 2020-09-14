@@ -31,7 +31,10 @@ namespace SmartWay.Orm.Entity.References
             get
             {
                 if (_object.IsLoaded)
-                    return (TPk)_object.Value?.GetPkValue();
+                {
+                    var pk = _object.Value?.GetPkValue();
+                    return pk == null ? default : (TPk)pk;
+                }
 
                 return _id;
             }
@@ -67,7 +70,15 @@ namespace SmartWay.Orm.Entity.References
                 _id = default;
                 return;
             }
-            _id = (TPk)value.GetPkValue() ?? default;
+
+            var id = value.GetPkValue();
+            if (id == null)
+            {
+                _id = default;
+                return;
+            }
+
+            _id = (TPk) id;
         }
     }
 }
