@@ -10,16 +10,22 @@ namespace SmartWay.Orm.Repositories
         where TEntity : class, TIEntity, new()
         where TIEntity : class, IDistinctableEntity
     {
+        private IDataStore _dataStore;
+
         public Repository()
         {
         }
 
         public Repository(IDataStore dataStore)
         {
-            DataStore = dataStore;
+            _dataStore = dataStore;
         }
 
-        public IDataStore DataStore { get; set; }
+        public virtual IDataStore DataStore
+        {
+            get => _dataStore;
+            set => _dataStore = value;
+        }
 
         /// <summary>
         ///     Save specified entity from repository
