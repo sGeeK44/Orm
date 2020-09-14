@@ -48,7 +48,7 @@ namespace SmartWay.Orm.Entity.References
         private void RefreshObjectCollection()
         {
             _objectList = new Lazy<List<TReference>>(() =>
-                _repository.GetAllReference<TEntity>(_entity.Id) ?? new List<TReference>());
+                _repository.GetAllReference<TEntity>(_entity.GetPkValue()) ?? new List<TReference>());
         }
     }
 }

@@ -36,6 +36,11 @@ namespace SmartWay.Orm.Entity
         }
 
         /// <summary>
+        /// Indicate if object was loaded
+        /// </summary>
+        public bool IsLoaded => _loaded;
+
+        /// <summary>
         ///     Get value lazy loaded.
         /// </summary>
         public T Value

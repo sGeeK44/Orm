@@ -37,7 +37,7 @@ namespace SmartWay.Orm.Entity
                 return;
             }
 
-            Id = distinctableEntity.Id;
+            Id = (long)distinctableEntity.GetPkValue();
         }
 
         public virtual IRepository<TIEntity> Repository
@@ -64,6 +64,24 @@ namespace SmartWay.Orm.Entity
         [Field(FieldName = GuidColumnName, DefaultValue = DefaultValue.RandomGuid, RequireUniqueValue = true,
             AllowsNulls = false, SearchOrder = FieldSearchOrder.Ascending, IsSyncIdentifier = true)]
         public Guid Guid { get; set; }
+
+        /// <summary>
+        /// Get primary key column name
+        /// </summary>
+        /// <returns></returns>
+        public string GetPkColumnName()
+        {
+            return IdColumnName;
+        }
+
+        /// <summary>
+        /// Get primary key value
+        /// </summary>
+        /// <returns>Entity primary key value</returns>
+        public object GetPkValue()
+        {
+            return Id;
+        }
 
         public List<PropertyInfo> DbField
         {

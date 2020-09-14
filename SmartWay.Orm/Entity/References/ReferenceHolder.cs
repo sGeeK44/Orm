@@ -6,19 +6,48 @@ namespace SmartWay.Orm.Entity.References
     ///     Wrap behaviour Id and entity object for a reference
     /// </summary>
     /// <typeparam name="TReference"></typeparam>
-    public abstract class ReferenceHolder<TReference> where TReference : class, IDistinctableEntity
+    /// <typeparam name="TPk">Type of primary key field</typeparam>
+    public class ReferenceHolder<TReference, TPk> where TReference : class, IDistinctableEntity
     {
         private readonly IRepository<TReference> _repository;
+        private TPk _id;
         private Lazy<TReference> _object;
 
         /// <summary>
         ///     Create a new instance of Reference holder
         /// </summary>
         /// <param name="repository">Repository used when need to get object instance by id</param>
-        protected ReferenceHolder(IRepository<TReference> repository)
+        public ReferenceHolder(IRepository<TReference> repository)
         {
             _repository = repository;
-            SetObjectNull();
+            Set(null);
+        }
+
+        /// <summary>
+        ///     Get or set new reference Id
+        /// </summary>
+        public TPk Id
+        {
+            get
+            {
+                if (_object.IsLoaded)
+                    return (TPk)_object.Value?.GetPkValue();
+
+                return _id;
+            }
+            set => Set(value);
+        }
+
+        protected void Set(TPk id)
+        {
+            _id = id;
+            if (_id == null)
+            {
+                Set(null);
+                return;
+            }
+
+            _object = new Lazy<TReference>(() => _repository?.GetById(id));
         }
 
         /// <summary>
@@ -27,34 +56,18 @@ namespace SmartWay.Orm.Entity.References
         public TReference Object
         {
             get => _object.Value;
-            set
-            {
-                _object = new Lazy<TReference>(value);
-                SetId(value);
-            }
+            set => Set(value);
         }
 
-        protected abstract void SetId(TReference value);
-
-        protected void SetObject(long? id)
+        protected void Set(TReference value)
         {
-            if (id == null)
+            _object = new Lazy<TReference>(value);
+            if (value == null)
             {
-                SetObjectNull();
+                _id = default;
                 return;
             }
-
-            SetObject(id.Value);
-        }
-
-        private void SetObjectNull()
-        {
-            _object = new Lazy<TReference>((TReference) null);
-        }
-
-        protected void SetObject(long id)
-        {
-            _object = new Lazy<TReference>(() => _repository?.GetById(id));
+            _id = (TPk)value.GetPkValue() ?? default;
         }
     }
 }

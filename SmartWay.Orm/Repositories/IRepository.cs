@@ -81,22 +81,15 @@ namespace SmartWay.Orm.Repositories
         /// </summary>
         /// <param name="id">Id to search</param>
         /// <returns>Entity if found, else null</returns>
-        TEntity GetById(long id);
-
-        /// <summary>
-        ///     Search TEntity with specified Guid in repository
-        /// </summary>
-        /// <param name="guid">Guid to search</param>
-        /// <returns></returns>
-        TEntity GetByGuid(Guid guid);
+        TEntity GetById(object id);
 
         /// <summary>
         ///     Get all TEntity linked to specified foreign key
         /// </summary>
         /// <typeparam name="TForeignEntity">Type of foreign entity</typeparam>
-        /// <param name="id">Foreign key value</param>
+        /// <param name="fk">Foreign key value</param>
         /// <returns>A collection with all entity linked</returns>
-        List<TEntity> GetAllReference<TForeignEntity>(long id);
+        List<TEntity> GetAllReference<TForeignEntity>(object fk);
 
         /// <summary>
         ///     Search all entity in database

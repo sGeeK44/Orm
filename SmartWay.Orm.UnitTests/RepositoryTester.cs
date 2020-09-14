@@ -13,7 +13,7 @@ namespace SmartWay.Orm.UnitTests
 
         public Mock<IRepository<ConcreteEntity>> Mock { get; set; }
 
-        public override List<ConcreteEntity> GetAllReference<TForeignEntity>(long id)
+        public override List<ConcreteEntity> GetAllReference<TForeignEntity>(object id)
         {
             return Mock.Object.GetAllReference<TForeignEntity>(id);
         }

@@ -13,10 +13,10 @@ namespace SmartWay.Orm.Testkit.Entities
         {
         }
 
-        public override List<BookVersion> GetAllReference<TForeignEntity>(long id)
+        public override List<BookVersion> GetAllReference<TForeignEntity>(object id)
         {
             if (typeof(TForeignEntity) == typeof(Book))
-                return GetAllBookReference(id);
+                return GetAllBookReference((long)id);
 
             return base.GetAllReference<TForeignEntity>(id);
         }

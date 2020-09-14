@@ -8,12 +8,12 @@ using SmartWay.Orm.Testkit.Entities;
 namespace SmartWay.Orm.UnitTests.Entity.References
 {
     [TestFixture]
-    public class MandatoryReferenceHolderTest
+    public class ReferenceHolderTest
     {
-        private static void CheckIsConsistant(IDistinctableEntity book, MandatoryReferenceHolder<Book> manadatory)
+        private static void CheckIsConsistant(IDistinctableEntity book, ReferenceHolder<Book, long?> manadatory)
         {
             Assert.AreEqual(book, manadatory.Object);
-            Assert.AreEqual(book.Id, manadatory.Id);
+            Assert.AreEqual(book.GetPkValue(), manadatory.Id);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var book = new Book {Id = 10};
             var repo = new Mock<IRepository<Book>>();
             repo.Setup(_ => _.GetById(book.Id)).Returns(book);
-            var manadatory = new MandatoryReferenceHolder<Book>(repo.Object) {Id = book.Id};
+            var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Id = book.Id};
 
 
             CheckIsConsistant(book, manadatory);
@@ -34,7 +34,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var book = new Book {Id = 10};
             var repo = new Mock<IRepository<Book>>();
             repo.Setup(_ => _.GetById(book.Id)).Returns(book);
-            var manadatory = new MandatoryReferenceHolder<Book>(repo.Object) {Object = book};
+            var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Object = book};
 
 
             CheckIsConsistant(book, manadatory);
@@ -61,7 +61,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var repo = new Mock<IRepository<Book>>();
             repo.Setup(_ => _.GetById(book.Id)).Returns(book);
             repo.Setup(_ => _.GetById(book2.Id)).Returns(book2);
-            var manadatory = new MandatoryReferenceHolder<Book>(repo.Object) {Id = book.Id, Object = book2};
+            var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Id = book.Id, Object = book2};
 
 
             CheckIsConsistant(book2, manadatory);
@@ -75,7 +75,7 @@ namespace SmartWay.Orm.UnitTests.Entity.References
             var repo = new Mock<IRepository<Book>>();
             repo.Setup(_ => _.GetById(book.Id)).Returns(book);
             repo.Setup(_ => _.GetById(book2.Id)).Returns(book2);
-            var manadatory = new MandatoryReferenceHolder<Book>(repo.Object) {Object = book, Id = book2.Id};
+            var manadatory = new ReferenceHolder<Book, long?>(repo.Object) {Object = book, Id = book2.Id};
 
 
             CheckIsConsistant(book2, manadatory);

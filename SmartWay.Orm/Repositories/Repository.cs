@@ -31,8 +31,8 @@ namespace SmartWay.Orm.Repositories
             if (entity == null)
                 return;
 
-            if (entity.Id == EntityBase<TIEntity>.NullId
-                || GetById(entity.Id) == null)
+            if ((long)entity.GetPkValue() == EntityBase<TIEntity>.NullId
+                || GetById(entity.GetPkValue()) == null)
                 DataStore.Insert(entity);
             else
                 DataStore.Update(entity);
@@ -84,17 +84,13 @@ namespace SmartWay.Orm.Repositories
         }
 
         /// <summary>
-        ///     Get a entity object with the id
+        ///     Get a entity object with the pk
         /// </summary>
-        /// <param name="id">The id of the entity to get</param>
+        /// <param name="pk">The unique identifier of the entity to get</param>
         /// <returns>The entity if exists in datastore, else null</returns>
-        public virtual TIEntity GetById(long id)
+        public virtual TIEntity GetById(object pk)
         {
-            if (id <= 0)
-                return null;
-
-            var result = DataStore.Select<TEntity>(id);
-            return result;
+            return DataStore.Select<TEntity>(pk);
         }
 
         public TIEntity GetByGuid(Guid guid)
@@ -121,7 +117,7 @@ namespace SmartWay.Orm.Repositories
         /// <typeparam name="TForeignEntity">Type of foreign entity</typeparam>
         /// <param name="id">Foreign key value</param>
         /// <returns>A collection with all entity linked</returns>
-        public virtual List<TIEntity> GetAllReference<TForeignEntity>(long id)
+        public virtual List<TIEntity> GetAllReference<TForeignEntity>(object id)
         {
             return new List<TIEntity>();
         }

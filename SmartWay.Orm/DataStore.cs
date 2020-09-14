@@ -79,8 +79,10 @@ namespace SmartWay.Orm
             if (entities == null || entities.Count == 0)
                 return;
 
-            var condition = Condition<TEntity>(EntityBase<TIEntity>.IdColumnName,
-                entities.Select(_ => _.Id).Distinct().ToList(), FilterOperator.In);
+            var first = entities.First();
+            var pkColumnName = first.GetPkColumnName();
+            var pkValue = first.GetPkValue();
+            var condition = Condition<TEntity>(pkColumnName, pkValue, FilterOperator.In);
             Select<TEntity>().Where(condition).Delete();
         }
 

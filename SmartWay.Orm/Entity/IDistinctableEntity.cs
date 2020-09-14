@@ -8,13 +8,15 @@ namespace SmartWay.Orm.Entity
     public interface IDistinctableEntity
     {
         /// <summary>
-        ///     Get unique object identifier
+        /// Get primary key column name
         /// </summary>
-        long Id { get; set; }
+        /// <returns>Entity primary key column name</returns>
+        string GetPkColumnName();
 
         /// <summary>
-        ///     Get generated id
+        /// Get primary key value
         /// </summary>
-        Guid Guid { get; set; }
+        /// <returns>Entity primary key value</returns>
+        object GetPkValue();
     }
 }

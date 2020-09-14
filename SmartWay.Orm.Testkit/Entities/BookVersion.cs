@@ -9,7 +9,7 @@ namespace SmartWay.Orm.Testkit.Entities
     public class BookVersion : EntityBase<BookVersion>
     {
         public const string BookIdColName = "BookId";
-        private readonly NullableReferenceHolder<Book> _book;
+        private readonly ReferenceHolder<Book, long?> _book;
 
         public BookVersion() : this(null)
         {
@@ -17,7 +17,7 @@ namespace SmartWay.Orm.Testkit.Entities
 
         public BookVersion(IRepository<Book> repo)
         {
-            _book = new NullableReferenceHolder<Book>(repo);
+            _book = new ReferenceHolder<Book, long?>(repo);
         }
 
         [ForeignKey(typeof(Book))]

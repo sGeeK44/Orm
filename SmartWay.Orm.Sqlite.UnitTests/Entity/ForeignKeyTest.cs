@@ -68,7 +68,7 @@ namespace SmartWay.Orm.Sqlite.UnitTests.Entity
         {
             public const string ParentIdColumnName = "ParentId";
             private readonly ReferenceCollectionHolder<Tree, Tree> _childList;
-            private readonly NullableReferenceHolder<Tree> _parent;
+            private readonly ReferenceHolder<Tree, long?> _parent;
 
             public Tree() : this(null)
             {
@@ -76,7 +76,7 @@ namespace SmartWay.Orm.Sqlite.UnitTests.Entity
 
             public Tree(IRepository<Tree> repo)
             {
-                _parent = new NullableReferenceHolder<Tree>(repo);
+                _parent = new ReferenceHolder<Tree, long?>(repo);
                 _childList = new ReferenceCollectionHolder<Tree, Tree>(repo, this);
             }
 
@@ -109,10 +109,10 @@ namespace SmartWay.Orm.Sqlite.UnitTests.Entity
             {
             }
 
-            public override List<Tree> GetAllReference<TForeignEntity>(long id)
+            public override List<Tree> GetAllReference<TForeignEntity>(object id)
             {
                 if (typeof(TForeignEntity) == typeof(Tree))
-                    return GetAllTreeReference(id);
+                    return GetAllTreeReference((long)id);
 
                 return base.GetAllReference<TForeignEntity>(id);
             }
